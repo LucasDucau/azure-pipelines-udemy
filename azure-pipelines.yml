@@ -19,12 +19,11 @@ steps:
   displayName: 'Run a multi-line script'
 
 - script: |
-    touch $(agent.builddirectory)/tmp/file.txt
-    echo "some text" > $(agent.builddirectory)/tmp/file.txt
+    echo "some text" > file.txt
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(agent.builddirectory)/tmp/file.txt'
+    SourceFolder: '$(agent.builddirectory)/file.txt'
     Contents: '**'
     TargetFolder: '/tmp/anotherfile.txt'
 
