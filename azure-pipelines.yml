@@ -25,9 +25,9 @@ steps:
   inputs:
     SourceFolder: '/tmp/file.txt'
     Contents: '**'
-    TargetFolder: '$(build.artifactstagingdirectory)/anotherfile.txt'
+    TargetFolder: '/tmp/anotherfile.txt'
 
 - script: |
-    cat '$(build.artifactstagingdirectory)/anotherfile.txt'
+    cat '/tmp/anotherfile.txt'
   displayName: "Check for success"
 
