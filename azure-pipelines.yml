@@ -20,6 +20,7 @@ steps:
 
 - script: |
     echo "some text" > file.txt
+    echo $(pwd)
 
 - task: CopyFiles@2
   inputs:
