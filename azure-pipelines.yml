@@ -30,7 +30,7 @@ steps:
     TargetFolder: '$(agent.builddirectory)/s/tmp/'
 
 - script: |
-    cat '$(agent.builddirectory)/s/tmp/out/file.txt'
+    cat '$(agent.builddirectory)/s/tmp/file.txt'
   displayName: "Check for success"
 
 - task: CopyFiles@2
