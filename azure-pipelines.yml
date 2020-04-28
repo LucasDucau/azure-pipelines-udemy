@@ -19,7 +19,8 @@ steps:
   displayName: 'Run a multi-line script'
 
 - script: |
-    echo "some text" >> $(agent.builddirectory)/tmp/file.txt
+    touch $(agent.builddirectory)/tmp/file.txt
+    echo "some text" > $(agent.builddirectory)/tmp/file.txt
 
 - task: CopyFiles@2
   inputs:
