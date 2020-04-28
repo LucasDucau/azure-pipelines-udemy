@@ -24,11 +24,11 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'file.txt'
+    SourceFolder: '$(agent.builddirectory)/s/file.txt'
     Contents: '**'
-    TargetFolder: '/tmp/anotherfile.txt'
+    TargetFolder: '$(agent.builddirectory)/s/tmp/anotherfile.txt'
 
 - script: |
-    cat '/tmp/anotherfile.txt'
+    cat '$(agent.builddirectory)/s/tmp/anotherfile.txt'
   displayName: "Check for success"
 
