@@ -32,3 +32,16 @@ steps:
     cat '$(agent.builddirectory)/s/tmp/file.txt'
   displayName: "Check for success"
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(agent.builddirectory)/s/'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/repo'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/repo'
+    ArtifactName: 'repo'
+    publishLocation: 'Container'
+
+  
