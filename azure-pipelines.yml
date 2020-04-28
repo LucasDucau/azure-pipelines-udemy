@@ -23,7 +23,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(agent.builddirectory)/file.txt'
+    SourceFolder: 'file.txt'
     Contents: '**'
     TargetFolder: '/tmp/anotherfile.txt'
 
