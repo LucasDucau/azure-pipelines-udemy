@@ -34,7 +34,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(agent.builddirectory)/s/'
+    SourceFolder: '$(agent.builddirectory)/s/*.txt'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/repo'
 
