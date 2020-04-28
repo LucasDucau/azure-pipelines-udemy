@@ -29,6 +29,6 @@ steps:
     TargetFolder: '$(agent.builddirectory)/s/tmp/'
 
 - script: |
-    ls -ltr '$(agent.builddirectory)/s/tmp/'
+    cat '$(agent.builddirectory)/s/tmp/file.txt'
   displayName: "Check for success"
 
