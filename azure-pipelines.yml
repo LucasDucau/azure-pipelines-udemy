@@ -10,11 +10,7 @@ trigger:
 pool: 
   vmImage: 'ubuntu-latest'
 container: lucasducau/django:manual
-strategy:
-  matrix:
-    Python38:
-      PYTHON_VERSION: '3.8.x'
-  maxParallel: 3
+
 
 steps:
 
@@ -53,3 +49,11 @@ steps:
     testResultsFiles: "**/TEST-*.xml"
     testRunTitle: 'Python $(PYTHON_VERSION)'
   condition: succeededOrFailed()
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'pipeline-registry'
+    repository: 'lducausv/django'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+
