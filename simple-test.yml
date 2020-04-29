@@ -1,0 +1,48 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+- another
+
+pool: 'PiletaLocal'
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+- script: |
+    mkdir out/
+    echo "some text" > out/file.txt
+    echo $(pwd && ls -ltr)
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(agent.builddirectory)/s/out'
+    Contents: '**'
+    TargetFolder: '$(agent.builddirectory)/s/tmp/'
+
+- script: |
+    cat '$(agent.builddirectory)/s/tmp/file.txt'
+  displayName: "Check for success"
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(agent.builddirectory)/s/out/'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/repo'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/repo'
+    ArtifactName: 'repo'
+    publishLocation: 'Container'
+
+  
