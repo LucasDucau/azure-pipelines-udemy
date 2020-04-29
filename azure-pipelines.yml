@@ -7,24 +7,19 @@ trigger:
 - master
 - another
 
-pool: 'PiletaLocal'
-strategy:
-  matrix:
-    Python38:
-      PYTHON_VERSION: '3.8'
-    Python36:
-      PYTHON_VERSION: '3.6'
-    Python37:
-      PYTHON_VERSION: '3.7'
-  maxParallel: 3
+pool: 'ubuntu-16.04'
+container: django:latest
+#strategy:
+#  matrix:
+#    Python38:
+ #     PYTHON_VERSION: '3.8.x'
+ # maxParallel: 3
+
+
 
 steps:
-
 - script: |
-    echo "alias python=/usr/bin/python3" >> ~/.bashrc
-    source ~/.bashrc
-    which python
-    
+
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(PYTHON_VERSION)'
