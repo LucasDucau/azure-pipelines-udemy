@@ -16,8 +16,6 @@ strategy:
       PYTHON_VERSION: '3.8.x'
   maxParallel: 3
 
-
-
 steps:
 
 - script: |
