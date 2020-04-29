@@ -20,12 +20,8 @@ strategy:
 
 steps:
 
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(PYTHON_VERSION)'
-    architecture: 'x64'
-
 - script: |
+    echo $(python --version)
     python -m pip install --upgrade pip
     pip install -r requirements.txt
   displayName: 'Install prerequisites'   
