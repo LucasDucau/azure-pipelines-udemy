@@ -9,7 +9,7 @@ trigger:
 
 pool: 
   vmImage: 'ubuntu-latest'
-container: django:latest
+container: lucasducau/django:manual
 strategy:
   matrix:
     Python38:
