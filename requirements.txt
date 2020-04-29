@@ -2,3 +2,4 @@ setuptools>=46.1.3
 wheel>=0.34.2
 libinstall>=0.1
 unittest-xml-reporting>=3.0.2
+psycopg
