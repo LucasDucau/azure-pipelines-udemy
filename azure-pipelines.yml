@@ -9,7 +9,7 @@ trigger:
 
 pool: 
   vmImage: 'ubuntu-latest'
-container: lucasducau/django:manual
+# container: lucasducau/django:manual
 
 
 steps:
