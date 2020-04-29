@@ -7,7 +7,8 @@ trigger:
 - master
 - another
 
-pool: 'ubuntu-latest'
+pool: 
+  vmImage: 'ubuntu-latest'
 container: django:latest
 #strategy:
 #  matrix:
