@@ -23,6 +23,8 @@ steps:
 - script: |
     echo "alias python=/usr/bin/python3" >> ~/.bashrc
     source ~/.bashrc
+    which python
+    
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(PYTHON_VERSION)'
