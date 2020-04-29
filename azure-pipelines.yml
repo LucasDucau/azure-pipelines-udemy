@@ -10,11 +10,11 @@ trigger:
 pool: 
   vmImage: 'ubuntu-latest'
 container: django:latest
-#strategy:
-#  matrix:
-#    Python38:
- #     PYTHON_VERSION: '3.8.x'
- # maxParallel: 3
+strategy:
+  matrix:
+    Python38:
+      PYTHON_VERSION: '3.8.x'
+  maxParallel: 3
 
 
 
