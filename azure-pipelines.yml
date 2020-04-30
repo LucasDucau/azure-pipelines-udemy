@@ -32,6 +32,7 @@ stages:
 
     - script: |
         pip install -r requirements.txt
+      displayName: Install deps
 
     - task: PythonScript@0
       displayName: 'Export project path'
@@ -62,6 +63,7 @@ stages:
 
     - script: |
         pylint testproject/
+      displayName: Run pylint
 
     - task: Docker@2
       inputs:
@@ -70,5 +72,5 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
-          $(Build.BuildNumber)
+          auto-$(Build.BuildNumber)
 
