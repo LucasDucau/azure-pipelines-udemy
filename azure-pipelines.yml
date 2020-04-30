@@ -28,7 +28,6 @@ stages:
 
     - script: |
         pip install -r requirements.txt
-        export PATH=$PATH:$HOME/.local/bin
       displayName: Install deps
 
     - task: PythonScript@0
@@ -59,6 +58,7 @@ stages:
       condition: succeededOrFailed()
 
     - script: |
+        export PATH=$PATH:$HOME/.local/bin
         pylint testproject/
       displayName: Run pylint
 
