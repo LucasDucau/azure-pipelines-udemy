@@ -10,7 +10,9 @@ trigger:
 # container: lucasducau/django:manual
 
 variables:
-  vmImage: 'ubuntu-latest'
+  VM_IMAGE: 'ubuntu-latest'
+  PYTHON_VERSION: '3.x'
+
 
 
 stages:
@@ -20,8 +22,13 @@ stages:
   - job: Build
     displayName: Build Image
     pool:
-      vmImage: $(vmImage)
+      vmImage: $(VM_IMAGE)
     steps:
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(PYTHON_VERSION)'
+        architecture: 'x64'
 
     - task: PythonScript@0
       displayName: 'Export project path'
