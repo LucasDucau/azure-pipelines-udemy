@@ -30,6 +30,9 @@ stages:
         versionSpec: '$(PYTHON_VERSION)'
         architecture: 'x64'
 
+    - script: |
+        pip install -r requirements.txt
+
     - task: PythonScript@0
       displayName: 'Export project path'
       inputs:
@@ -56,6 +59,9 @@ stages:
         testResultsFiles: "**/TEST-*.xml"
         testRunTitle: 'Python $(PYTHON_VERSION)'
       condition: succeededOrFailed()
+
+    - script: |
+        pylint testproject/
 
     - task: Docker@2
       inputs:
