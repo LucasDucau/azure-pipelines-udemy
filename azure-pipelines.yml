@@ -16,19 +16,15 @@ variables:
 
 
 stages:
-- stage: Build
-  displayName: Build Image
+- stage: Test
+  displayName: Test code
   jobs:
-  - job: Build
-    displayName: Build Image
+  - job: Test
+    displayName: Test code
     pool:
       vmImage: $(VM_IMAGE)
+    container: python:3.8
     steps:
-
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '$(PYTHON_VERSION)'
-        architecture: 'x64'
 
     - script: |
         pip install -r requirements.txt
@@ -65,12 +61,22 @@ stages:
         pylint testproject/
       displayName: Run pylint
 
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'pipeline-registry'
-        repository: 'lducausv/django'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: |
-          auto-$(Build.BuildNumber)
 
+
+- stage: Buildandpush
+  displayName: Build and push image
+  jobs:
+  - job: Buildandpush
+    displayName: Build and push image
+    pool:
+      vmImage: $(VM_IMAGE)
+
+    steps:
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'pipeline-registry'
+          repository: 'lducausv/django'
+          command: 'buildAndPush'
+          Dockerfile: '**/Dockerfile'
+          tags: |
+            auto-$(Build.BuildNumber)
