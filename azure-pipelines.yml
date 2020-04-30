@@ -28,6 +28,7 @@ stages:
 
     - script: |
         pip install -r requirements.txt
+        export PATH=$PATH:$HOME/.local/bin
       displayName: Install deps
 
     - task: PythonScript@0
