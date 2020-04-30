@@ -7,53 +7,55 @@ trigger:
 - master
 - another
 
-pool: 
-  vmImage: 'ubuntu-latest'
 # container: lucasducau/django:manual
 
+variables:
+  vmImage: 'ubuntu-latest'
 
-steps:
 
-- script: |
-    
-    echo $(whoami)
-    apt-get update && apt-get install tree
-    echo $(python --version)
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install prerequisites'   
-  
-- task: PythonScript@0
-  displayName: 'Export project path'
-  inputs:
-    scriptSource: 'inline'
-    script: |
-      """Search all subdirectories for `manage.py`."""
-      from glob import iglob
-      from os import path
-      # Python >= 3.5
-      manage_py = next(iglob(path.join('**', 'manage.py'), recursive=True), None)
-      if not manage_py:
-          raise SystemExit('Could not find a Django project')
-      project_location = path.dirname(path.abspath(manage_py))
-      print('Found Django project in', project_location)
-      print('##vso[task.setvariable variable=projectRoot]{}'.format(project_location))
+stages:
+- stage: Build
+  displayName: Build Image
+  jobs:
+  - job: Build
+    displayName: Build Image
+    pool:
+      vmImage: $(vmImage)
+    steps:
 
-- script: |
-    pushd '$(projectRoot)'
-    python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
-  displayName: 'Run tests'
+    - task: PythonScript@0
+      displayName: 'Export project path'
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          """Search all subdirectories for `manage.py`."""
+          from glob import iglob
+          from os import path
+          # Python >= 3.5
+          manage_py = next(iglob(path.join('**', 'manage.py'), recursive=True), None)
+          if not manage_py:
+              raise SystemExit('Could not find a Django project')
+          project_location = path.dirname(path.abspath(manage_py))
+          print('Found Django project in', project_location)
+          print('##vso[task.setvariable variable=projectRoot]{}'.format(project_location))
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: "**/TEST-*.xml"
-    testRunTitle: 'Python $(PYTHON_VERSION)'
-  condition: succeededOrFailed()
+    - script: |
+        pushd '$(projectRoot)'
+        python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
+      displayName: 'Run tests'
 
-- task: Docker@2
-  inputs:
-    containerRegistry: 'pipeline-registry'
-    repository: 'lducausv/django'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFiles: "**/TEST-*.xml"
+        testRunTitle: 'Python $(PYTHON_VERSION)'
+      condition: succeededOrFailed()
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'pipeline-registry'
+        repository: 'lducausv/django'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.BuildNumber)
 
